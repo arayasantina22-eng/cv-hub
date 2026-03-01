@@ -82,9 +82,9 @@ export default function App() {
     <div className={`${isDark ? "dark bg-[#0A0A0A] text-[#F5F5F5]" : "bg-[#F8F9FA] text-[#1A1A1A]"} min-h-screen font-sans transition-colors duration-300 selection:bg-orange-500 selection:text-white`}>
       {/* Navigation */}
       <nav className={`fixed top-0 w-full z-50 ${isDark ? "bg-[#0A0A0A]/80 border-white/5" : "bg-white/80 border-black/5"} backdrop-blur-md border-b`}>
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-6 py-4 grid grid-cols-2 md:grid-cols-3 items-center">
           {/* Left: Theme Toggle */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center justify-start gap-4">
             <button 
               onClick={toggleTheme}
               className={`p-2 rounded-full transition-colors ${isDark ? "bg-white/5 hover:bg-white/10 text-orange-400" : "bg-black/5 hover:bg-black/10 text-orange-600"}`}
@@ -94,20 +94,24 @@ export default function App() {
           </div>
           
           {/* Center: Nav Links (Desktop) */}
-          <div className="hidden md:flex space-x-8 text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+          <div className="hidden md:flex justify-center space-x-8 text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
             {navLinks.map((link) => (
               <a key={link.name} href={link.href} className="hover:text-orange-500 transition">{link.name}</a>
             ))}
           </div>
 
           {/* Right: Mobile Menu Toggle */}
-          <div className="md:hidden">
-            <button 
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`p-2 rounded-lg transition-colors ${isDark ? "text-white hover:bg-white/5" : "text-black hover:bg-black/5"}`}
-            >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+          <div className="flex justify-end">
+            <div className="md:hidden">
+              <button 
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className={`p-2 rounded-lg transition-colors ${isDark ? "text-white hover:bg-white/5" : "text-black hover:bg-black/5"}`}
+              >
+                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
+            {/* Placeholder for desktop grid balance */}
+            <div className="hidden md:block" />
           </div>
         </div>
 
