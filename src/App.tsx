@@ -315,8 +315,8 @@ export default function App() {
       </section>
 
       {/* Interactive Skills Section - Replacing Marquee */}
-      <section id="skills" className="py-10 lg:py-32 px-4 md:px-6 max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between mb-8 lg:mb-20 gap-4 lg:gap-8 text-center md:text-left">
+      <section id="skills" className="py-6 lg:py-16 px-4 md:px-6 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row items-center justify-between mb-6 lg:mb-12 gap-4 lg:gap-8 text-center md:text-left">
           <h2 className="text-3xl lg:text-7xl font-black uppercase tracking-tighter leading-none shrink-0">
             Core <span className="text-orange-500">Expertise</span>
           </h2>
@@ -342,8 +342,8 @@ export default function App() {
       </section>
 
       {/* Experience Section - BLUE ACCENTS */}
-      <section id="experience" className="max-w-7xl mx-auto px-4 md:px-6 py-10 lg:py-32">
-        <div className="flex flex-col md:flex-row items-center justify-between mb-8 lg:mb-20 gap-4 lg:gap-8 text-center md:text-left">
+      <section id="experience" className="max-w-7xl mx-auto px-4 md:px-6 py-6 lg:py-16">
+        <div className="flex flex-col md:flex-row items-center justify-between mb-6 lg:mb-12 gap-4 lg:gap-8 text-center md:text-left">
           <h2 className="text-3xl lg:text-7xl font-black uppercase tracking-tighter leading-none shrink-0">
             Web3 <span className="text-orange-500">Journey</span>
           </h2>
@@ -417,7 +417,7 @@ export default function App() {
       </section>
 
       {/* Casual CTA Section - ORANGE */}
-      <section id="contact" className="max-w-7xl mx-auto px-4 md:px-6 py-10 lg:py-32">
+      <section id="contact" className="max-w-7xl mx-auto px-4 md:px-6 py-6 lg:py-12">
         <div className="bg-orange-500 rounded-[1rem] lg:rounded-[2rem] p-6 lg:p-24 text-white text-center relative overflow-hidden shadow-xl shadow-orange-500/10">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -446,8 +446,8 @@ export default function App() {
       </section>
 
       {/* Contact Form Section */}
-      <section id="contact-form" className="max-w-3xl mx-auto px-4 md:px-6 py-10 lg:py-32">
-        <div className="text-center mb-12 lg:mb-20">
+      <section id="contact-form" className="max-w-3xl mx-auto px-4 md:px-6 py-6 lg:py-12">
+        <div className="text-center mb-8 lg:mb-12">
           <h2 className="text-3xl lg:text-7xl font-black uppercase tracking-tighter leading-none mb-4">
             Start a <span className="text-orange-500">Conversation</span>
           </h2>
