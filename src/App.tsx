@@ -67,6 +67,7 @@ const PROFILE_IMAGE = "https://i.imgur.com/amkD6p1.jpeg";
 export default function App() {
   const [isDark, setIsDark] = useState(false); // Default to light for this specific clean look
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Toggle theme
   const toggleTheme = () => setIsDark(!isDark);
@@ -462,14 +463,24 @@ export default function App() {
           viewport={{ once: true }}
           onSubmit={(e) => {
             e.preventDefault();
-            const formData = new FormData(e.currentTarget);
+            const form = e.currentTarget;
+            const formData = new FormData(form);
             const name = formData.get('name');
             const email = formData.get('email');
             const subject = formData.get('subject');
             const message = formData.get('message');
             
             const mailtoUrl = `mailto:andrewuriadi@gmail.com?subject=${encodeURIComponent(subject as string)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
+            
+            // Open email client
             window.location.href = mailtoUrl;
+            
+            // Show success feedback
+            setIsSubmitted(true);
+            form.reset();
+            
+            // Reset button after 5 seconds
+            setTimeout(() => setIsSubmitted(false), 5000);
           }}
           className={`p-6 lg:p-12 rounded-[1.5rem] lg:rounded-[2.5rem] border ${isDark ? "bg-white/5 border-white/5" : "bg-white border-gray-300 shadow-xl shadow-black/5"}`}
         >
@@ -517,10 +528,24 @@ export default function App() {
           </div>
           <button 
             type="submit"
-            className="w-full bg-orange-500 text-white py-4 rounded-xl lg:rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/20"
+            disabled={isSubmitted}
+            className={`w-full py-4 rounded-xl lg:rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-lg ${
+              isSubmitted 
+              ? "bg-emerald-500 text-white cursor-default" 
+              : "bg-orange-500 text-white hover:bg-orange-600 shadow-orange-500/20"
+            }`}
           >
-            Send Message
-            <Send className="w-4 h-4" />
+            {isSubmitted ? (
+              <>
+                Message Sent!
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </>
+            ) : (
+              <>
+                Send Message
+                <Send className="w-4 h-4" />
+              </>
+            )}
           </button>
         </motion.form>
       </section>
