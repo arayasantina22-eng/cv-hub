@@ -68,6 +68,7 @@ export default function App() {
   const [isDark, setIsDark] = useState(false); // Default to light for this specific clean look
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   // Toggle theme
   const toggleTheme = () => setIsDark(!isDark);
@@ -267,7 +268,7 @@ export default function App() {
                   <a href="https://id.linkedin.com/in/andre-wuriadi-5579821a0" target="_blank" rel="noopener noreferrer" title="LinkedIn" className="w-8 lg:w-9 h-8 lg:h-9 rounded-lg bg-white dark:bg-white/5 flex items-center justify-center hover:bg-[#0077B5] hover:text-white transition-all border border-transparent hover:border-black/10">
                     <Linkedin className="w-4 h-4" />
                   </a>
-                  <a href="mailto:andrewuriadi@gmail.com" title="Email" className="w-8 lg:w-9 h-8 lg:h-9 rounded-lg bg-white dark:bg-white/5 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all border border-transparent hover:border-black/10">
+                  <a href="mailto:andrewucommunitymanager@gmail.com" title="Email" className="w-8 lg:w-9 h-8 lg:h-9 rounded-lg bg-white dark:bg-white/5 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all border border-transparent hover:border-black/10">
                     <Mail className="w-4 h-4" />
                   </a>
                 </motion.div>
@@ -461,26 +462,35 @@ export default function App() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
             const form = e.currentTarget;
             const formData = new FormData(form);
-            const name = formData.get('name');
-            const email = formData.get('email');
-            const subject = formData.get('subject');
-            const message = formData.get('message');
             
-            const mailtoUrl = `mailto:andrewuriadi@gmail.com?subject=${encodeURIComponent(subject as string)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
-            
-            // Open email client
-            window.location.href = mailtoUrl;
-            
-            // Show success feedback
-            setIsSubmitted(true);
-            form.reset();
-            
-            // Reset button after 5 seconds
-            setTimeout(() => setIsSubmitted(false), 5000);
+            setIsSending(true);
+
+            try {
+              // Formspree AJAX submission
+              const response = await fetch("https://formspree.io/f/xqedvqkn", {
+                method: "POST",
+                body: formData,
+                headers: {
+                  'Accept': 'application/json'
+                }
+              });
+
+              if (response.ok) {
+                setIsSubmitted(true);
+                form.reset();
+                setTimeout(() => setIsSubmitted(false), 5000);
+              } else {
+                alert("Oops! There was a problem submitting your form. Please try again.");
+              }
+            } catch (error) {
+              alert("Oops! There was a problem submitting your form. Please try again.");
+            } finally {
+              setIsSending(false);
+            }
           }}
           className={`p-6 lg:p-12 rounded-[1.5rem] lg:rounded-[2.5rem] border ${isDark ? "bg-white/5 border-white/5" : "bg-white border-gray-300 shadow-xl shadow-black/5"}`}
         >
@@ -528,10 +538,12 @@ export default function App() {
           </div>
           <button 
             type="submit"
-            disabled={isSubmitted}
+            disabled={isSubmitted || isSending}
             className={`w-full py-4 rounded-xl lg:rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-lg ${
               isSubmitted 
               ? "bg-emerald-500 text-white cursor-default" 
+              : isSending
+              ? "bg-gray-400 text-white cursor-wait"
               : "bg-orange-500 text-white hover:bg-orange-600 shadow-orange-500/20"
             }`}
           >
@@ -539,6 +551,14 @@ export default function App() {
               <>
                 Message Sent!
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </>
+            ) : isSending ? (
+              <>
+                Sending...
+                <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
               </>
             ) : (
               <>
