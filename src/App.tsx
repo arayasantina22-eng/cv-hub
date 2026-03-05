@@ -84,26 +84,35 @@ export default function App() {
     <div className={`${isDark ? "dark bg-[#0A0A0A] text-[#F5F5F5]" : "bg-[#F8F9FA] text-[#1A1A1A]"} min-h-screen font-sans transition-colors duration-300 selection:bg-orange-500 selection:text-white`}>
       {/* Navigation */}
       <nav className={`fixed top-0 w-full z-50 ${isDark ? "bg-[#0A0A0A]/80 border-white/5" : "bg-white/80 border-black/5"} backdrop-blur-md border-b`}>
-        <div className="max-w-7xl mx-auto px-6 py-4 grid grid-cols-2 md:grid-cols-3 items-center">
-          {/* Left: Theme Toggle */}
-          <div className="flex items-center justify-start gap-4">
-            <button 
-              onClick={toggleTheme}
-              className={`p-2 rounded-full transition-colors ${isDark ? "bg-white/5 hover:bg-white/10 text-orange-400" : "bg-black/5 hover:bg-black/10 text-orange-600"}`}
-            >
-              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
+        <div className="max-w-7xl mx-auto px-6 py-3 lg:py-4 flex items-center">
+          {/* Left: Brand / Logo */}
+          <div className="flex-1 flex items-center justify-start">
+            <a href="#about" className="flex flex-col leading-none group">
+              <span className="font-black text-xl lg:text-2xl tracking-tighter group-hover:text-orange-500 transition-colors">AW</span>
+              <span className="flex items-center gap-1.5 text-[9px] lg:text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                Open for Collaboration
+              </span>
+            </a>
           </div>
           
           {/* Center: Nav Links (Desktop) */}
-          <div className="hidden md:flex justify-center space-x-8 text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+          <div className="hidden md:flex items-center justify-center space-x-8 text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
             {navLinks.map((link) => (
               <a key={link.name} href={link.href} className="hover:text-orange-500 transition">{link.name}</a>
             ))}
           </div>
 
-          {/* Right: Mobile Menu Toggle */}
-          <div className="flex justify-end">
+          {/* Right: Actions */}
+          <div className="flex-1 flex items-center justify-end gap-2 lg:gap-4">
+            <button 
+              onClick={toggleTheme}
+              className={`p-2 rounded-full transition-colors ${isDark ? "bg-white/5 hover:bg-white/10 text-orange-400" : "bg-black/5 hover:bg-black/10 text-orange-600"}`}
+              title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            >
+              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+            
             <div className="md:hidden">
               <button 
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -112,8 +121,6 @@ export default function App() {
                 {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
-            {/* Placeholder for desktop grid balance */}
-            <div className="hidden md:block" />
           </div>
         </div>
 
